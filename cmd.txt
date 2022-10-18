@@ -1,0 +1,3 @@
+ ffmpeg -i 00204.MTS -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 224k output.mp4
+
+ffmpeg -i 00204.MTS -i output.mp4 -map 1 -map_metadata 0 -c copy fixed.mp4
