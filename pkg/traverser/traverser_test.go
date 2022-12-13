@@ -1,6 +1,7 @@
 package traverser_test
 
 import (
+	"reflect"
 	"testing"
 	"testing/fstest"
 
@@ -16,9 +17,32 @@ func TestGetConversionList(t *testing.T) {
 		"source/dir2/dir3/video4.MTS": {},
 	}
 
-	conversion_list := traverser.GetConversionList(fs, "source", "dest")
+	got := traverser.GetConversionList(fs, "source", "dest")
 
-	if len(conversion_list) != 4 {
-		t.Errorf("got %d files, wanted %d files", len(conversion_list), 4)
+	want := []traverser.SourceDestPair{
+		{
+			Source: "source/video1.MTS",
+			Dest:   "dest/video1.mp4",
+		},
+		{
+			Source: "source/dir1/video2.MTS",
+			Dest:   "dest/dir1/video2.mp4",
+		},
+		{
+			Source: "source/dir2/video3.MTS",
+			Dest:   "dest/dir2/video3.mp4",
+		},
+		{
+			Source: "source/dir2/dir3/video4.MTS",
+			Dest:   "dest/dir2/dir3/video4.mp4",
+		},
+	}
+
+	if len(got) != 4 {
+		t.Errorf("got %d files, wanted %d files", len(got), 4)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %+v, want %+v", got, want)
 	}
 }
