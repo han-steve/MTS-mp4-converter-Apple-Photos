@@ -10,3 +10,8 @@ exiftool -tagsFromFile "NAME.MTS" -time:all "output.mp4"
 
 The first command converts the video and autio to a QuickTime-compatible format while the second one copies over the timestamp.  
 To automate the process of converting all photos and preserving the folder structure, I wrote this Go script.
+
+It's recommended to build it from source (by running go build cmd/main.go - if you don't have go installed, [install it](https://go.dev/doc/install)). 
+To execute this command, provide the root directory, source folder name, and destination folder name as command line arguments.For example, execute ./main /Users/user/Desktop /Source /Destination.
+
+After executing it, it shows a progress bar displaying the conversion progress. Since running ffmpeg on big files is slow, allow it plenty of time to run (for my library of 900 videos, it took 15 hours). 
