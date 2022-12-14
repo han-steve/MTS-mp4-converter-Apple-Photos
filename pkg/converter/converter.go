@@ -16,7 +16,7 @@ func ConvertVideo(orig string, dest string, execCommand ExecCommand) error {
 		"-c",
 		"mkdir -p \""+path.Dir(
 			dest,
-		)+"\" && ffmpeg -i \""+orig+"\" -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 224k \""+dest+"\" && exiftool -tagsFromFile \""+orig+"\" -time:all \""+dest+"\"",
+		)+"\" && ffmpeg -i \""+orig+"\" -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 224k \""+dest+"\" && exiftool -tagsFromFile \""+orig+"\" -time:all -overwrite_original \""+dest+"\"",
 	)
 	output, err := cmd.CombinedOutput()
 	if err != nil {

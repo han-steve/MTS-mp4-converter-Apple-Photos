@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-var expectedCommand string = "mkdir -p \"dest\" && ffmpeg -i \"original/0.MTS\" -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 224k \"dest/0.mp4\" && exiftool -tagsFromFile \"original/0.MTS\" -time:all \"dest/0.mp4\""
+var expectedCommand string = "mkdir -p \"dest\" && ffmpeg -i \"original/0.MTS\" -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 224k \"dest/0.mp4\" && exiftool -tagsFromFile \"original/0.MTS\" -time:all -overwrite_original \"dest/0.mp4\""
 
 type mockCmd struct{}
 

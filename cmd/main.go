@@ -8,6 +8,7 @@ import (
 
 	"github.com/SteveHan-233/MTS-to-mp4/pkg/converter"
 	"github.com/SteveHan-233/MTS-to-mp4/pkg/traverser"
+	"github.com/schollz/progressbar/v3"
 )
 
 func realExecCommand(command string, args ...string) converter.Command {
@@ -28,15 +29,17 @@ func main() {
 		os.Args[2],
 		os.Args[3],
 	)
-	err := converter.ConvertVideo(
-		path.Join(root, list[0].Source),
-		path.Join(root, list[0].Dest),
-		realExecCommand,
-	)
-	fmt.Println(err)
-	converter.ConvertVideo(
-		path.Join(root, list[1].Source),
-		path.Join(root, list[1].Dest),
-		realExecCommand,
-	)
+	bar := progressbar.Default(int64(len(list)))
+	for _, item := range list {
+		bar.Describe("Converting video " + item.Source)
+		err := converter.ConvertVideo(
+			path.Join(root, item.Source),
+			path.Join(root, item.Dest),
+			realExecCommand,
+		)
+		if err != nil {
+			fmt.Println(err)
+		}
+		bar.Add(1)
+	}
 }
