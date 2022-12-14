@@ -42,7 +42,22 @@ func TestGetConversionList(t *testing.T) {
 		t.Errorf("got %d files, wanted %d files", len(got), 4)
 	}
 
-	if !reflect.DeepEqual(got, want) {
+	if !isEqual(got, want) {
 		t.Errorf("got %+v, want %+v", got, want)
 	}
+}
+
+func isEqual(aa, bb []traverser.SourceDestPair) bool {
+	eqCtr := 0
+	for _, a := range aa {
+		for _, b := range bb {
+			if reflect.DeepEqual(a, b) {
+				eqCtr++
+			}
+		}
+	}
+	if eqCtr != len(bb) || len(aa) != len(bb) {
+		return false
+	}
+	return true
 }

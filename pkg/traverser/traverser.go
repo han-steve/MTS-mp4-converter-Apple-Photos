@@ -24,13 +24,20 @@ func GetConversionList(
 	for _, file := range files {
 		newSource := path.Join(source, file.Name())
 		newDest := path.Join(dest, file.Name())
-		if file.IsDir() {
+		if !file.IsDir() && len(file.Name()) > 4 &&
+			file.Name()[len(file.Name())-4:] == ".MTS" {
+			conversionList = append(
+				conversionList,
+				SourceDestPair{
+					Source: newSource,
+					Dest:   newDest[0:len(newDest)-4] + ".mp4",
+				},
+			)
+		} else if file.IsDir() {
 			conversionList = append(
 				conversionList,
 				GetConversionList(fileSystem, newSource, newDest)...,
 			)
-		} else if len(file.Name()) > 4 && file.Name()[len(file.Name())-4:] == ".MTS" {
-			conversionList = append(conversionList, SourceDestPair{Source: newSource, Dest: newDest})
 		}
 	}
 	return conversionList
