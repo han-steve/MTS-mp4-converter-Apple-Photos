@@ -10,8 +10,15 @@ ffmpeg -i NAME.MTS -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 
 exiftool -tagsFromFile "NAME.MTS" -time:all "output.mp4"
 ```
 
+If anyone want to convert all MTS files from a directory without Go, just do the following (by @sy6sy2):
+
+1. Open a Terminal and move in folder that contains all your MTS movies.
+2. Run this command to convert all MTS movies in MP4 file: `for f in *; do ffmpeg -i $f -c:v libx265 -preset fast -crf 28 -tag:v hvc1 -c:a eac3 -b:a 224k $f.mp4 && exiftool -tagsFromFile $f -time:all $f.mp4; done`
+
+
 The first command converts the video and autio to a QuickTime-compatible format while the second one copies over the timestamp.  
-To automate the process of converting all photos and preserving the folder structure, I wrote this Go script.
+
+Otherwise, I wrote this Go script to automate the process of converting all photos and preserving the folder structure,
 
 Make sure that you have ffmpeg and exiftool installed. If you are on a Mac, I recommend using homebrew for this. 
 It's recommended to build it from source (by running go build cmd/main.go - if you don't have go installed, [install it](https://go.dev/doc/install)). 
